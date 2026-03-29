@@ -1,13 +1,209 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --blue-50: #F0F6FC;
+  --blue-100: #E1EDF8;
+  --blue-200: #C4DEF1;
+  --blue-300: #9EC6E7;
+  --blue-400: #71A9D8;
+  --blue-500: #4A90E2; 
+  --blue-600: #357ABD;
+  --blue-700: #296096;
+  --blue-800: #224E7A;
+  --blue-900: #1B3F63;
+  --text-dark: #122940;
+  --text-muted: #4A6E91; /* slightly darker for better readability */
+  
+  --bg-gradient: linear-gradient(145deg, #FDFDFF 0%, #E8F1FA 100%);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --shadow-sm: 0 4px 15px rgba(74, 144, 226, 0.08);
+  --shadow-md: 0 8px 24px rgba(74, 144, 226, 0.12);
+  --shadow-lg: 0 24px 50px rgba(74, 144, 226, 0.15);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  background: #EAF0F6;
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.app-container {
+  width: 100%;
+  background: var(--bg-gradient);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Base Animations Core */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUpFade { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseGlow {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 35px rgba(74, 144, 226, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.5s ease-in; }
+.animate-up { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-up-delay { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 0.1s; }
+.animate-up-delay-2 { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 0.2s; }
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ==================================================== */
+/* MOBILE STYLES (Default / Mobile-First)               */
+/* ==================================================== */
+
+.app-container {
+  min-height: 100vh;
+}
+
+/* Loading */
+.loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+.lung-container { width: 120px; height: 120px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(74, 144, 226, 0.2); animation: pulseGlow 2.5s infinite ease-in-out; }
+.lung-icon { width: 65px; height: auto; opacity: 0.95; }
+.fade-in-text { font-weight: 300; color: var(--blue-700); letter-spacing: 2px; font-size: 1.1rem; text-transform: uppercase; }
+
+/* Home */
+.home-screen { padding: 40px 24px; display: flex; flex-direction: column; }
+.main-header { margin-bottom: 32px; animation: slideUpFade 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+.main-header h1 { font-size: 2.2rem; font-weight: 700; color: var(--blue-500); margin-bottom: 8px; letter-spacing: -0.5px; }
+.main-header p { font-size: 1.15rem; color: var(--text-muted); font-weight: 400; line-height: 1.5; } /* Size increased */
+
+.cards-list { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+.disease-card { width: 100%; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; cursor: pointer; transition: all 0.2s ease-in-out; }
+.disease-card:active { transform: scale(0.98); }
+.card-content h3 { font-size: 1.45rem; color: var(--text-dark); margin-bottom: 12px; font-weight: 600; }
+.card-desc { font-size: 1.15rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; } /* Increased size and margin */
+.card-action { font-weight: 500; color: var(--blue-500); display: flex; align-items: center; justify-content: space-between; font-size: 1.05rem; background: var(--blue-50); padding: 14px 18px; border-radius: 12px; transition: background 0.2s ease; margin-top: auto; }
+
+/* Route Screen */
+.route-screen { padding: 30px 24px; display: flex; flex-direction: column; min-height: 100vh; }
+.route-header { margin-bottom: 24px; animation: fadeIn 0.4s ease-out; }
+.back-button { background: none; border: none; color: var(--text-muted); font-size: 1.1rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 8px 12px 8px 0; transition: color 0.2s ease; }
+.back-button:active { color: var(--blue-500); }
+.route-header h2 { font-size: 2rem; color: var(--text-dark); font-weight: 600; letter-spacing: -0.5px; line-height: 1.2; }
+
+.route-content { display: flex; flex-direction: column; flex: 1; gap: 24px; }
+.route-content-top { display: flex; flex-direction: column; gap: 24px; }
+
+.card { background: var(--card-bg); backdrop-filter: blur(12px); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid rgba(255, 255, 255, 0.8); }
+
+.route-description h3, .route-rehab h3 { color: var(--blue-600); font-size: 1.25rem; margin-bottom: 12px; font-weight: 600; }
+.large-text { font-size: 1.2rem; color: var(--text-dark); line-height: 1.7; font-weight: 400; }
+.route-rehab p { font-size: 1.15rem; color: var(--text-muted); line-height: 1.7; } 
+
+.map-card { display: flex; flex-direction: column; padding: 20px; }
+.map-wrapper { flex: 1; min-height: 350px; border-radius: 14px; overflow: hidden; background: #E8F1FA; margin-bottom: 20px; position: relative; z-index: 1; border: 1px solid rgba(74, 144, 226, 0.2); }
+.map-action-footer { text-align: center; }
+.map-action-footer p { font-size: 1rem; color: var(--text-muted); margin-bottom: 14px; }
+.external-btn { display: inline-block; width: 100%; padding: 16px 20px; background: var(--blue-500); color: white; text-decoration: none; font-weight: 500; border-radius: 12px; transition: background 0.2s ease; }
+.external-btn:active { background: var(--blue-600); }
+
+/* ==================================================== */
+/* DESKTOP STYLES (min-width: 768px)                    */
+/* ==================================================== */
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 1040px;
+    min-height: calc(100vh - 80px);
+    margin: 40px auto;
+    border-radius: 36px;
+    box-shadow: 0 40px 100px rgba(74, 144, 226, 0.15);
+  }
+
+  .loading-screen { min-height: 600px; }
+  .lung-container { width: 160px; height: 160px; margin-bottom: 40px; }
+  .lung-icon { width: 85px; }
+
+  /* Home Screen */
+  .home-screen { padding: 60px 48px; }
+  .main-header { text-align: center; margin-bottom: 50px; }
+  .main-header h1 { font-size: 3.5rem; letter-spacing: -1px; }
+  .main-header p { font-size: 1.3rem; }
+
+  /* List layout for cards on Desktop */
+  .cards-list { display: flex; flex-direction: column; gap: 24px; max-width: 800px; margin: 0 auto; width: 100%; }
+
+  .disease-card { 
+    padding: 32px 40px; 
+    border-radius: 28px; 
+    flex-direction: row; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 32px; 
+  }
+  
+  .disease-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .card-content { flex: 1; }
+  .card-content h3 { font-size: 1.7rem; margin-bottom: 12px; }
+  .card-desc { font-size: 1.15rem; margin-bottom: 0; }
+  
+  .card-action { 
+    padding: 16px 24px; 
+    border-radius: 16px; 
+    font-size: 1.1rem; 
+    margin-top: 0; 
+    white-space: nowrap; 
+    flex-shrink: 0; 
+  }
+  
+  .disease-card:hover .card-action { background: var(--blue-100); }
+
+  /* Route Screen layout */
+  .route-screen { padding: 50px 60px; min-height: auto; }
+  .route-header { margin-bottom: 40px; }
+  .back-button { font-size: 1.2rem; }
+  .back-button:hover { color: var(--blue-500); }
+  .route-header h2 { font-size: 2.8rem; margin-bottom: 10px; }
+
+  /* Split layout: Short desc + Map on top, Rehab Full text on bottom */
+  .route-content { gap: 32px; }
+  
+  .route-content-top {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* Left text, right map */
+    gap: 32px;
+    align-items: stretch;
+  }
+
+  .card { border-radius: 32px; padding: 32px; }
+  .route-description h3, .route-rehab h3 { font-size: 1.5rem; margin-bottom: 16px; }
+  .large-text { font-size: 1.3rem; line-height: 1.7; }
+  .route-rehab p { font-size: 1.25rem; line-height: 1.7; }
+
+  /* Make sure map card wrapper fills properly in stretch flex/grid */
+  .map-card { padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+  .map-wrapper { min-height: 350px; height: 100%; border-radius: 20px; }
+  
+  .map-action-footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; text-align: left; }
+  .map-action-footer p { margin-bottom: 0; font-size: 1.1rem; width: 60%; }
+  .external-btn { width: auto; padding: 16px 28px; border-radius: 16px; font-size: 1.1rem; }
+  .external-btn:hover { background: var(--blue-600); transform: scale(1.02); }
 }
