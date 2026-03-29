@@ -4,5 +4,5 @@ export interface RouteData {
   description: string;
   fullDescription: string;
   link: string;
-  coordinates: [number, number]; // [lat, lng] for 2GIS API initialization
+  coordinates: [number, number];
 }
